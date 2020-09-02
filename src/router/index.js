@@ -7,14 +7,6 @@ Vue.use(Router)
 export default new Router({
 	routes: [
 	{
-		path: '/homePage',
-		name: 'homePage',
-		meta: {
-			hideHeader: true,
-		},
-		component: () => import('@/pages/homePage/index')
-	},
-	{
 		path: '/',
 		name: 'Home',
 		component: () => import('@/pages/home/index'),

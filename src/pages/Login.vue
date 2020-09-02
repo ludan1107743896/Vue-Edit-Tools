@@ -1,264 +1,319 @@
 <template>
-  <div class="page-login">
-    <div class="login-logo">
-      <i class="iconfont icon-xinxiwanglogo"></i>
-    </div>
-    <div class="login-page-inner">
-      <p class="title">秀e秀可视化系统</p>
-      <el-form :model="formData" :rules="type === '注册'?formRulesRegister:formRules" ref="loginForm" label-width="80px">
-        <el-form-item prop="email" v-if="type === '注册'" label="邮箱">
-          <el-input v-model="formData.email" @keyup.enter.native="doLogin">
-            <span slot="prefix" class="iconfont icon-zhanghao"></span>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="username" label="用户名">
-          <el-input v-model="formData.username" @keyup.enter.native="doLogin">
-            <i slot="prefix" class="iconfont icon-zhanghao"></i>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="password" label="密码">
-          <el-input v-model="formData.password" :type="inputType" @keyup.enter.native="doLogin"
-                    v-if="inputType==='password'">
-            <i slot="prefix" class="iconfont icon-mima"></i>
-            <span slot="suffix" class="cursor-pointer" @mousedown="mousedownPassword">
-              <i class="iconfont icon-yincangmima"></i>
-            </span>
-          </el-input>
-          <el-input v-model="formData.password" :type="inputType" @keyup.enter.native="doLogin" v-else>
-            <i slot="prefix" class="iconfont icon-mima"></i>
-            <span slot="suffix" class="cursor-pointer" @mousedown="mousedownText">
-              <i class="iconfont icon-yincangmima"></i>
-            </span>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="checkPassword" v-if="type === '注册'" label="确认密码">
-          <el-input v-model="formData.checkPassword" @keyup.enter.native="doLogin">
-            <span slot="prefix" class="iconfont icon-zhanghao"></span>
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <div class="btn-hover" @click="doLogin">{{type === '注册'?'注册':'登录'}}</div>
+    <div class="homepage-hero-module">
+        <div class="login-container">
+            <el-form
+                ref="loginForm"
+                :model="loginForm"
+                :rules="loginRules"
+                class="login-form"
+                auto-complete="on"
+                label-position="left"
+            >
+                <div class="title-container">
+                    <h3 class="title">VUE-EDIT-TOOLS</h3>
+                </div>
+                <el-form-item prop="username">
+                    <span class="svg-container svg-container_login">
+                        <i slot="prefix" class="el-icon-user"></i>
+                    </span>
+                    <el-input
+                        v-model="loginForm.username"
+                        name="username"
+                        type="text"
+                        auto-complete="on"
+                        placeholder="请输入姓名"
+                    />
+                </el-form-item>
 
-          <div class="clearfix text-right paddingT10">
-            <el-button type="text" @click="switchLoginType">{{type === '注册'?'立马登录':'立马注册'}}</el-button>
-          </div>
-        </el-form-item>
-      </el-form>
-      <p class="login-page-bottom">Copyright © 2020 <span class="primary">秀e秀版权所有</span></p>
+                <el-form-item prop="password">
+                    <span class="svg-container">
+                        <i slot="prefix" class="el-icon-goods"></i>
+                    </span>
+                    <el-input
+                        :type="passwordType"
+                        v-model="loginForm.password"
+                        name="password"
+                        auto-complete="on"
+                        placeholder="请输入密码"
+                        @keyup.enter.native="handleLogin"
+                    />
+                    <span class="show-pwd" @click="showPwd">
+                        <i class="el-icon-view"></i>
+                    </span>
+                </el-form-item>
+
+                <el-button
+                    :loading="loading"
+                    type="primary"
+                    style="width:100%;margin-bottom:30px;"
+                    @click.native.prevent="handleLogin"
+                >登录</el-button>
+            </el-form>
+        </div>
+        <div class="video-container">
+            <div :style="fixStyle" class="filter"></div>
+            <video :style="fixStyle" autoplay loop class="fillWidth" v-on:canplay="canplay" muted>
+                <source :src="PATH_TO_MP4" type="video/mp4" />浏览器不支持 video 标签，建议升级浏览器。
+            </video>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-	import {
-		Form,
-		FormItem,
-		Input
-	} from 'element-ui'
+import mp4Path from '../../public/1.mp4'
 
-	export default {
-		components: {
-			[Form.name]: Form,
-			[FormItem.name]: FormItem,
-			[Input.name]: Input,
-		},
-		data() {
-			var validatePass = (rule, value, callback) => {
-				if (value === '') {
-					callback(new Error('密码不能为空'));
-				} else {
-					if (this.formData.checkPassword !== '') {
-						this.$refs.loginForm.validateField('checkPass');
-					}
-					callback();
-				}
-			};
-			var validatePass2 = (rule, value, callback) => {
-				if (value === '') {
-					callback(new Error('请再次输入密码'));
-				} else if (value !== this.formData.password) {
-					callback(new Error('两次输入密码不一致!'));
-				} else {
-					callback();
-				}
-			};
-			return {
-				loading: false,
-				type: 'login',
-				inputType: 'password',
-				formData: {
-					email: '',
-					username: '',
-					password: '',
-					checkPassword: '',
-
-				},
-				formRules: {
-					username: [
-						{required: true, message: '用户名不能为空', trigger: 'blur'}
-					],
-					password: [
-						{required: true, message: '密码不能为空', trigger: 'blur'}
-					]
-				},
-				formRulesRegister: {
-					username: [
-						{required: true, message: '用户名不能为空', trigger: 'blur'}
-					],
-					password: [
-						{validator: validatePass, trigger: 'blur'}
-					],
-					checkPassword: [
-						{validator: validatePass2, trigger: 'blur'}
-					],
-					email: [
-						{required: true, message: '请输入邮箱地址', trigger: 'blur'},
-						{type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
-					]
-				}
-			}
-		},
-		created() {
-			// 进入登录页面先清空个人信息
-		},
-		methods: {
-			/**
-			 登陆
-			 */
-			doLogin() {
-				if(this.type === '注册'){
-					this.doRegister()
-          return;
+export default {
+    name: 'login',
+    data() {
+        const validatePassword = (rule, value, callback) => {
+            if (value.length < 6) {
+                callback(new Error('管理员密码长度应大于6'))
+            } else {
+                callback()
+            }
         }
-				// 验证成功
-				this.$refs.loginForm.validate((valid) => {
-					if (valid) {
-						this.$axios.post('/auth/login', this.formData).then(res => {
-							this.$store.dispatch('updateUserToken', res.body.token)
-							this.$router.push('/');
-							this.getUserInfo();
-						})
+        return {
+            vedioCanPlay: false,
+            fixStyle: '',
+            PATH_TO_MP4: '',
+            loginForm: {
+                username: '',
+                password: '',
+            },
+            loginRules: {
+                username: [
+                    {
+                        required: true,
+                        message: '账户不允许为空',
+                        trigger: 'blur',
+                    },
+                ],
+                password: [
+                    {
+                        required: true,
+                        message: '密码不允许为空',
+                        trigger: 'blur',
+                    },
+                    { validator: validatePassword, trigger: 'blur' },
+                ],
+            },
+            passwordType: 'password',
+            loading: false,
+        }
+    },
+    watch: {
+        $route: {
+            handler: function (route) {
+                this.redirect = route.query && route.query.redirect
+            },
+            immediate: true,
+        },
+    },
+    created() {
+        window.addEventListener('hashchange', this.afterQRScan)
+        this.PATH_TO_MP4 = mp4Path
+    },
+    destroyed() {
+        window.removeEventListener('hashchange', this.afterQRScan)
+    },
+    methods: {
+        canplay() {
+            this.vedioCanPlay = true
+            console.log(this.vedioCanPlay)
+        },
+        showPwd() {
+            if (this.passwordType === 'password') {
+                this.passwordType = ''
+            } else {
+                this.passwordType = 'password'
+            }
+        },
+        handleLogin() {
+            this.$refs.loginForm.validate((valid) => {
+                if (valid && !this.loading) {
+					console.log(this.loginForm, '1111')
+					const {username, password} = this.loginForm;
+					if(username === 'ludan' && password === '123456'){
+						this.$router.push('/') 
 					} else {
-						this.$message.error('请正确填下表单!')
-						return false;
-					}
-				});
-			},
-			/**
-			 登陆
-			 */
-			doRegister() {
-				// 验证成功
-				this.$refs.loginForm.validate((valid) => {
-					if (valid) {
-						this.$axios.post('/auth/register', this.formData).then(res => {
-							this.$store.dispatch('updateUserToken', res.body.token)
-							this.$router.push('/');
-							this.getUserInfo();
-						})
-					} else {
-						this.$message.error('请正确填下表单!')
-						return false;
-					}
-				});
-			},
-			mousedownPassword() {
-				this.inputType = 'text'
-			},
-			mousedownText() {
-				this.inputType = 'password'
-			},
-			mouseup() {
-				this.inputType = 'password'
-			},
-			/**
-			 * 获取用户信息
-			 */
-			getUserInfo() {
-				this.$axios.get('/user/info').then(res => {
-					this.$store.dispatch('updateUserInfo', res.body)
-				})
-			},
-			/**
-			 * 切换登录注册
-			 */
-			switchLoginType() {
-				this.type = this.type === '登录' ? '注册' : '登录'
-			}
-		}
-	}
+						this.$message.error("请正确输入账号密码。")
+					} 
+                    // this.loading = true
+                    // this.$axios
+                    //     .post('/auth/register', this.loginForm)
+                    //     .then((res) => {
+					// 		this.loading = false;
+                    //         this.$store.dispatch(
+                    //             'updateUserToken',
+                    //             res.body.token
+                    //         )
+                    //         this.$router.push('/')
+                    //         this.getUserInfo()
+					// 	})
+					// 	.catch(response => {
+                    //         this.$message.error({
+                    //             title: '失败',
+                    //             message: '请正确填下表单'
+                    //         })
+                    //         this.loading = false
+                    //     })
+                } else {
+                    return false
+                }
+            })
+        },
+    },
+    mounted: function () {
+        window.onresize = () => {
+            const windowWidth = document.body.clientWidth
+            const windowHeight = document.body.clientHeight
+            const windowAspectRatio = windowHeight / windowWidth
+            let videoWidth
+            let videoHeight
+            if (windowAspectRatio < 0.5625) {
+                videoWidth = windowWidth
+                videoHeight = videoWidth * 0.5625
+                this.fixStyle = {
+                    height: windowWidth * 0.5625 + 'px',
+                    width: windowWidth + 'px',
+                    'margin-bottom': (windowHeight - videoHeight) / 2 + 'px',
+                    'margin-left': 'initial',
+                }
+            } else {
+                videoHeight = windowHeight
+                videoWidth = videoHeight / 0.5625
+                this.fixStyle = {
+                    height: windowHeight + 'px',
+                    width: windowHeight / 0.5625 + 'px',
+                    'margin-left': (windowWidth - videoWidth) / 2 + 'px',
+                    'margin-bottom': 'initial',
+                }
+            }
+        }
+        window.onresize()
+    },
+}
 </script>
-<style lang="scss" scoped>
-  .page-login {
+
+<style rel="stylesheet/scss" lang="scss">
+$bg: #2d3a4b;
+$light_gray: #eee;
+
+/* reset element-ui css */
+.login-container {
+    .el-input {
+        display: inline-block;
+        height: 47px;
+        width: 85%;
+        input {
+            background: transparent;
+            border: 0px;
+            -webkit-appearance: none;
+            border-radius: 0px;
+            padding: 12px 5px 12px 15px;
+            color: $light_gray;
+            height: 47px;
+            &:-webkit-autofill {
+                box-shadow: 0 0 0px 1000px $bg inset !important;
+                -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
+                -webkit-text-fill-color: #fff !important;
+            }
+        }
+    }
+
+    .el-form-item {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        color: #454545;
+    }
+}
+</style>
+
+<style rel="stylesheet/scss" lang="scss" scoped>
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
+.login-container {
+    position: fixed;
     height: 100%;
     width: 100%;
-    padding: 1px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    z-index: 9999;
 
-  .login-page-inner {
+    .login-form {
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 520px;
+        padding: 35px 35px 15px 35px;
+        margin: 120px auto;
+        z-index: 9999;
+    }
+
+    .tips {
+        font-size: 14px;
+        color: #fff;
+        margin-bottom: 10px;
+
+        span {
+            &:first-of-type {
+                margin-right: 16px;
+            }
+        }
+    }
+
+    .svg-container {
+        padding: 6px 5px 6px 15px;
+        color: $dark_gray;
+        vertical-align: middle;
+        width: 30px;
+        display: inline-block;
+
+        &_login {
+            font-size: 20px;
+        }
+    }
+
+    .title-container {
+        position: relative;
+
+        .title {
+            font-size: 26px;
+            font-weight: 400;
+            color: $light_gray;
+            margin: 0px auto 40px auto;
+            text-align: center;
+            font-weight: bold;
+        }
+    }
+
+    .show-pwd {
+        position: absolute;
+        right: 10px;
+        top: 7px;
+        font-size: 16px;
+        color: $dark_gray;
+        cursor: pointer;
+        user-select: none;
+    }
+}
+
+.homepage-hero-module,
+.video-container {
     position: relative;
-    z-index: 99;
-    width: 420px;
-    padding: 20px 40px;
-    background: white;
-    box-shadow: 0px 0px 2px rgba(58, 127, 158, 0.35);
-    border-radius: 4px;
-    .title {
-      padding: 10px 0 30px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-      color: rgba(65, 186, 120, 1);
-    }
-    /**
-    鼠标悬浮渐变
-    */
-    .btn-hover {
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 20px;
-      text-align: center;
-      color: white;
-      background: linear-gradient(to right, #5ac66a 0%, #3AA27F 60%, #207b5d 100%);
-      transition: all 3s;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .btn-hover:hover {
-      transition: all 3s;
-      background: linear-gradient(to right, #5ac66a 0%, #3AA27F 60%, #207b5d 100%);
-    }
-    .btn-hover:active {
-      transition: all 3s;
-      background: linear-gradient(to right, #5ac66a 0%, #3AA27F 40%, #207b5d 100%);
-    }
-    .login-page-bottom {
-      font-size: 12px;
-      color: #666;
-      text-align: center;
-    }
-    .forgot-password {
-      text-align: right;
-      font-size: 12px;
-      margin-bottom: 20px;
-      cursor: pointer;
-      color: #333;
-    }
-  }
+    height: 100vh;
+    overflow: hidden;
+}
 
-  .login-logo {
-    z-index: 99;
-    width: 300px;
-    height: 30px;
+.video-container .poster img,
+.video-container video {
+    z-index: 0;
     position: absolute;
-    top: 20px;
-    left: 20px;
-    color: white;
-    .iconfont {
-      font-size: 26px;
-    }
-  }
+}
+
+.video-container .filter {
+    z-index: 1;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.4);
+}
 </style>
