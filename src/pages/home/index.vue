@@ -7,15 +7,15 @@
           <i class="el-icon-mobile"></i>
           <span slot="title">我的作品</span>
         </el-menu-item>
-        <el-menu-item index="/my-template">
+        <el-menu-item index="/my-template" disabled>
           <i class="el-icon-document"></i>
           <span slot="title">我的模板</span>
         </el-menu-item>
-        <el-menu-item index="/page-data">
+        <el-menu-item index="/page-data" disabled>
           <i class="el-icon-menu"></i>
           <span slot="title">我的数据</span>
         </el-menu-item>
-        <el-menu-item index="/template-list">
+        <el-menu-item index="/template-list" disabled>
           <i class="el-icon-s-shop"></i>
           <span slot="title">创意模板</span>
         </el-menu-item>

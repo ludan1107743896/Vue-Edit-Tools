@@ -140,7 +140,7 @@
         }, {
 					value: 'longPage',
 					label: '长页H5',
-					disabled: false
+					disabled: true
 				}, {
 					name: 'relativePage',
 					label: '排版图文',

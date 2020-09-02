@@ -28,6 +28,7 @@ html,body{
   position: relative;
   height: 100%;
   padding-top: 60px;
+  background: #fff;
   .page-header-wrapper{
     position: absolute;
     top: 0;

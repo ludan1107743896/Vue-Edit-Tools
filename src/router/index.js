@@ -50,13 +50,5 @@ export default new Router({
 			trust: true,
 			noNeedLogin: true
 		}
-	},
-	{
-		path: '/pageEditor',
-		name: 'pageEditor',
-		meta: {
-			hideHeader:true,
-		},
-		component: () => import('@/pages/pageEditor/index')
 	}]
 })
