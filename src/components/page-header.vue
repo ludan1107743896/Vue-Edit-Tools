@@ -4,21 +4,6 @@
       <el-col :span="3">
         <span>VUE-EDIT-TOOLS</span>
       </el-col>
-      <el-col :span="6">
-        <el-input
-          placeholder="请输入内容"
-        >
-          <i slot="prefix" class="el-input__icon el-icon-search"></i>
-        </el-input>
-      </el-col>
-      <el-col :span="10" :offset="3">
-        <el-menu class="el-menu-demo" mode="horizontal">
-          <el-menu-item index="1">模板</el-menu-item>
-          <el-menu-item index="2">作品</el-menu-item>
-          <el-menu-item index="3">数据</el-menu-item>
-          <el-menu-item index="4">消息</el-menu-item>
-        </el-menu>
-      </el-col>
       <div class="pull-right">
         <userHeaderBar class="marginL30"/>
       </div>
@@ -63,10 +48,22 @@
     line-height: 60px;
     padding-left: 12px;
     padding-right: 12px;
-    background: rgba(255, 255, 255, 1);
+    background:#001529;
+    color: #fff;
     box-shadow: 0px 1px 4px 0px rgba(195, 195, 195, 0.6);
   }
-
+  .el-menu-demo{
+      background: #001529;
+      .el-menu-item{
+        color: #fff;
+      }
+      .el-menu-item:hover{
+       background: #001529;
+      }
+      .el-menu-item:active{
+        color: #f90;
+      }
+  }
 
   .logo-wrapper {
     font-size: 18px;

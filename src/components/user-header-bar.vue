@@ -2,8 +2,7 @@
   <el-dropdown class="components-user-header cursor-pointer">
     <span class="el-dropdown-link">
       <span class="user-header-image iconfont">
-        <img src="../common/images/head.png" alt="" v-if="userData.avatar" />
-        <img :src="userData.avatar" alt="" v-else />
+        <img src="../common/images/head.jpg" alt="" />
       </span>
       {{userData.name}}
       <i class="el-icon-arrow-down el-icon--right"></i>
@@ -31,9 +30,9 @@ export default {
 
 <style lang="scss" scoped>
 
-  .el-dropdown-link{
-    color: white;
-  }
+.el-dropdown-link{
+  color: white;
+}
 .user-header-image {
   display: inline-block;
   vertical-align: middle;
