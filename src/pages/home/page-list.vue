@@ -161,8 +161,8 @@
 			}
 		},
 		created() {
-			this.getPageList();
-			this.getPagesCount();
+			// this.getPageList();
+			// this.getPagesCount();
 			this.previewId = this.$route.query.previewId || ''
 			if (this.previewId) {
 				this.showPreview = true;

@@ -2,7 +2,8 @@
   <div class="components-page-header">
     <el-row :gutter="0">
       <el-col :span="3">
-        <span>VUE-EDIT-TOOLS</span>
+        <img src="../common/images/logo.png" class="logo"/>
+        <span class="logo-title">VUE-EDIT-TOOLS</span>
       </el-col>
       <div class="pull-right">
         <userHeaderBar class="marginL30"/>
@@ -43,6 +44,14 @@
 </script>
 
 <style lang="scss" scoped>
+  .logo {
+    width: 40px;
+    position: absolute;
+    margin-top: 10px;
+  }
+  .logo-title{
+    margin-left: 40px;
+  }
   .components-page-header {
     height: 60px;
     line-height: 60px;
