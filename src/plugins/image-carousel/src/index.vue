@@ -23,9 +23,9 @@
 				type: Array,
 				default: () => {
 					return [
-						'http://seopic.699pic.com/photo/50051/4111.jpg_wh1200.jpg',
-						'http://seopic.699pic.com/photo/50051/4111.jpg_wh1200.jpg',
-						'http://seopic.699pic.com/photo/50051/4111.jpg_wh1200.jpg'
+						'https://cdn.h5ds.com/uploads/s/20200811/e38e467465d50f10b02891bd48527c35db1cb5bb.png',
+						'https://cdn.h5ds.com/upload/afe8bd53-2cdd-47b0-b577-283fd278d55f.png',
+						'https://cdn.h5ds.com/uploads/s/20200806/07ee529637d65351f6a00683667debb8cd3ad367.jpg'
 					]
         }
 			},

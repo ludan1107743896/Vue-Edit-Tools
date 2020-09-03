@@ -11,7 +11,7 @@
 		props: {
 			imageSrc: {
 				type: String,
-        default: 'http://seopic.699pic.com/photo/50051/4111.jpg_wh1200.jpg'
+        default: 'https://cdn.h5ds.com/uploads/s/20200811/e38e467465d50f10b02891bd48527c35db1cb5bb.png'
       }
 		}
 	}
