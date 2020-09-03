@@ -195,17 +195,20 @@
 			 */
 			createNewPage() {
         // 临时作为跳转条件
-        this.$router.push({path: 'editor', query: {id: "123456"}})
-				let newPageData = editorProjectConfig.getProjectConfig()
-				this.loading = true;
-				this.$axios.post('/page/add', {...newPageData, pageMode: this.searchParams.pageMode, author: this.$store.state.user.userId}).then(res => {
-					this.loading = false;
-					if (res.body) {
-						this.$router.push({path: 'editor', query: {id: res.body._id}})
-					}
-				}).catch(() => {
-					this.loading = false;
-				})
+        this.$router.push({path: 'editor'})
+        let newPageData = editorProjectConfig.getProjectConfig()
+        // 先注释
+        if(false){ 
+          this.loading = true;
+          this.$axios.post('/page/add', {...newPageData, pageMode: this.searchParams.pageMode, author: this.$store.state.user.userId}).then(res => {
+            this.loading = false;
+            if (res.body) {
+              this.$router.push({path: 'editor', query: {id: res.body._id}})
+            }
+          }).catch(() => {
+            this.loading = false;
+          })
+        }
 			},
 			/**
 			 * 编辑页面

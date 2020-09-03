@@ -94,7 +94,7 @@
 			}
     },
     mounted() {
-      console.log(this.animateCssDatas, '11111111')
+      // console.log(this.animateCssDatas, '11111111')
     },
 		computed: {
 			...mapState({

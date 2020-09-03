@@ -83,6 +83,7 @@
 
 	import {mapState, mapGetters} from 'vuex'
 	import html2canvas from 'html2canvas'
+	import { v4 } from 'uuid';
 
 	export default {
 		components: {
@@ -141,8 +142,9 @@
 		},
 		created() {
 			this.$store.dispatch('setPrjectData')
-			this.id = this.$route.query.id;
-			this.initPageData();
+			this.id = this.$route.query.id || v4();
+			// 暂时注释
+			// this.initPageData();
 		},
 		methods: {
 			/**
