@@ -23,7 +23,7 @@
                         :active="item.uuid === activeElementUUID"
                     >
                         <component
-                            :is="item.elName"
+                            :is="handleIitem(item.elName)"
                             class="element-on-edit-pane"
                             v-bind="{...item.propsValue, value: item.value}"
                         />
@@ -146,6 +146,10 @@ export default {
     },
     mounted() {},
     methods: {
+        handleIitem(item) {
+            console.log(item, '------item111----')
+            return  item;
+        },
         /**
          * 元素被点击
          * @param uuid

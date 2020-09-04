@@ -65,6 +65,17 @@ export default [
 				}
 			},
 			{
+				elName: 'qk-html',
+				title: 'html 组件',
+				icon: 'iconfont iconjuxing',
+				valueType: '',
+				defaultStyle: {
+					height: 120,
+					width: 300,
+					background: "#fff"
+				}
+			},
+			{
 				elName: 'qk-image-carousel',
 				title: '图片轮播',
 				icon: 'iconfont iconshouyelunbotu',
