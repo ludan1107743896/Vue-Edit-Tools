@@ -57,7 +57,7 @@ let pageConfig = {
 let projectConfig = {
 	name: '',
 	title: '未命名场景',
-	description: '秀e秀,新建立一个微场景页面，可以来看看。',
+	description: '建立新页面',
 	coverImage: '',
 	auther: '',
 	script: '',
