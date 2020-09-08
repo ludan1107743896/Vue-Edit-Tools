@@ -10,7 +10,7 @@ import RectangleBorder from './rectangle-border'
 import Iframe from './iframe'
 import Button from './button'
 import Html from './html';
-
+import Radio from './radio';
 // 表单组件
 import Input from './input'
 import Textarea from './textarea'
@@ -37,7 +37,8 @@ const components = [
 	Textarea,
 	// 功能组件
 	bgMusic,
-	Html
+	Html,
+	Radio
 	// 业务组件
 ]
 // 定义 install 方法，接收 Vue 作为参数
